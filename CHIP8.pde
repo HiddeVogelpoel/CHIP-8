@@ -16,6 +16,8 @@ void setup() {
   memory.setMemory((short)0x123, (byte)0xFA);
   System.out.println(Byte.toUnsignedInt(memory.getMemory((short)0x123)));
   System.out.println(memory.getMemory((short)0xFFF));
+  
+  memory.getMemory((short) 0x000, (short) 0x50);
 }
 
 void draw() {
