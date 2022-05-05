@@ -16,9 +16,17 @@ class CPU{
  }
  
  // CPU instructions, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.1
+ 
+ // 00E0
  void cls(){
-   
+   for(int x = 0; x < 64; x++){
+    for(int y = 0; y < 32; y++){
+     memory.screen[x][y] = false;
+    }
+   }
  }
+ 
+ 
  // Variable extraction from opcode, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.0
  private short extractAddress(short opcode){
   return (short)(opcode & 0xFFF);

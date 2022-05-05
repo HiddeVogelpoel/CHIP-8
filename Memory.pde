@@ -2,7 +2,7 @@ class Memory{
   
   // Information taken from http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.1
   private byte[] memory;
-  private boolean[][] screen;
+  public boolean[][] screen;
   
   public Memory(){
     this.memory = new byte[4096];
