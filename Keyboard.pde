@@ -17,6 +17,12 @@
 class Keyboard{
  
   Keyboard(){
+    /* pseudo-code
+      if keypressed = true, keyreleased = false for each key
+    */
+    
+    
+    
     
   }
 }
