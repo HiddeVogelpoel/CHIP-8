@@ -33,32 +33,19 @@ void setup() {
 void draw() {
   // cpu.decodeExecute((short)0xF1D4);
   
-  //use for debug
+  
+  //register keys
+  keyboard.keyPressed();
+  //debugging keys
   background(0);
-  if(newletter == true) {
-    newletter = false;
+  if(keyboard.pressed[0x1]){
+    textSize(128);
+    text('1', 100,100);
   }
-}
-
-void keyPressed()
-{
-  
-  /*
-  // If the key is between 'A'(65) to 'Z' and 'a' to 'z'(122)
-  if((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')) {
-    int keyIndex;
-    if(key <= 'Z') {
-      keyIndex = key-'A';
-    } else {
-      keyIndex = key-'a';
-    }
-  } else {
-    fill(0);
+  if(keyboard.pressed[0x4]){
+  textSize(128);
+    text('Q', 300,100);
   }
-  */
-  if(key == 'A' || key == 'a'){
-    text('A', 50,50);
-  }
-  
-  newletter = true;
+  //sets key array items to false
+  keyboard.arraySet();
 }
