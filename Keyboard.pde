@@ -17,10 +17,8 @@
 class Keyboard{
   //the array stores the states of pressed keys
   public boolean[] pressed = new boolean[16];
-  int loop = 1;
  
   Keyboard(){
-    
     keyPressed();   
     arraySet();
   }
@@ -44,8 +42,6 @@ class Keyboard{
     pressed[0xB] = false;
     pressed[0xF] = false;
   }
-  
-  
   
   //event for the input check
   void keyPressed(){
@@ -163,5 +159,4 @@ class Keyboard{
       pressed[0xF] = false;
     }
   }
-  
 }

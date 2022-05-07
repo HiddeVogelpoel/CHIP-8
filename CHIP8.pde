@@ -4,10 +4,6 @@ CPU cpu;
 Memory memory;
 Keyboard keyboard;
 
-//remove later
-boolean newletter;  
-
-
 // Enable/Disable debug mode
 public static boolean DEBUG = true;
 
@@ -21,13 +17,11 @@ void setup() {
   System.out.println(Byte.toUnsignedInt(memory.getMemory((short)0x123)));
   System.out.println(memory.getMemory((short)0xFFF));
   
-  
   //for debug
   size(640, 360);
   noStroke();
   background(0);
   frameRate(60);
-  
 }
 
 void draw() {
