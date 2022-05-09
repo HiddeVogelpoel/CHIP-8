@@ -17,8 +17,6 @@ void setup() {
   cpu = new CPU(memory, keyboard);
   loadRom();
   
-  display.debugDisplay();
-  
   for(int i = 0; i < 3; i++){
    cpu.fetch();
    cpu.incrementPC();
