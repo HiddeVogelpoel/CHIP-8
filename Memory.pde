@@ -4,6 +4,7 @@ class Memory{
   private byte[] memory;
   public boolean[][] screen;
   public short[] stack;
+  public boolean drawFlag = false;
   
   // Building the font sprites, taken from http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.4
   private byte[] sprites = new byte[]{

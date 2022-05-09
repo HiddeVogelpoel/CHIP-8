@@ -3,23 +3,45 @@
 CPU cpu;
 Memory memory;
 Keyboard keyboard;
+Display display;
 
 // Enable/Disable debug mode
 public static boolean DEBUG = true;
 
 void setup() {
+  size(1280, 640);
   
   memory = new Memory();
   keyboard = new Keyboard();
+  display = new Display(memory);
   cpu = new CPU(memory, keyboard);
+  loadRom();
   
-  memory.setMemory((short)0x123, (byte)0xFA);
-  System.out.println(Byte.toUnsignedInt(memory.getMemory((short)0x123)));
-  System.out.println(memory.getMemory((short)0xFFF));
+  for(int i = 0; i < 3; i++){
+   cpu.fetch();
+   cpu.incrementPC();
+   cpu.decodeExecute();
+  }
   
-  memory.getMemory((short) 0x000, (short) 0x50);
 }
 
 void draw() {
-  // cpu.decodeExecute((short)0xF1D4);
+  if(memory.drawFlag){
+    display.drawScreen();
+    memory.drawFlag = false;
+  }
+  
+}
+
+void loadRom(){
+  byte bytes[] = loadBytes("test_opcode.ch8");
+  short currentAddr = (short)0x200;
+  int loadedBytes = 0;
+  for(byte b: bytes){
+   System.out.println(String.format("loading byte %x", b)); 
+   memory.setMemory(currentAddr, b);
+   currentAddr = (short)(currentAddr + 0x1);
+   loadedBytes++;
+  }
+  System.out.println(String.format("Finished loading ROM with length of %d bytes", loadedBytes));
 }
