@@ -5,8 +5,8 @@ class CPU{
   private Random random;
  
  // Connections required
-  Memory memory;
-  Keyboard keyboard;
+  private Memory memory;
+  private Keyboard keyboard;
   
   // Registers
   public byte[] v; // Vx registers 0x0 - 0xf
@@ -42,6 +42,7 @@ class CPU{
      memory.screen[x][y] = false;
     }
    }
+   memory.drawFlag = true;
  }
  
  // 00EE return from subroutine
@@ -159,7 +160,33 @@ class CPU{
   v[x] = (byte)(rand & kk);
  }
  
- // TODO: Dxyn, will take some time to implement
+ // Dxyn draw to screen
+ void draw(byte x, byte y, byte nibble){
+  byte readBytes = 0;
+  
+  byte vf = (byte)0x0;
+  while(readBytes < nibble){
+    byte currByte = memory.getMemory((short)(regI + readBytes));
+    for(int i = 0; i <= 7; i++){
+     int intX = (v[x] & 0xFF);
+     int intY = (v[y] & 0xFF);
+     
+     int realX = (intX + i)%64;
+     int realY = (intY + readBytes)%32;
+     
+     boolean prevPixel = memory.screen[realX][realY];
+     boolean newPixel = prevPixel ^ isBitSet(currByte, 7 - i);
+     memory.screen[realX][realY] = newPixel;
+     
+     if(prevPixel == true && newPixel == false){
+       vf = (byte)0x1;
+     }
+    }
+    v[0xF] = vf;
+    readBytes++;
+  }
+  memory.drawFlag = true;
+ }
  
  // TODO: Ex9e, ExA1; both require keyboard inputs
  
@@ -167,6 +194,8 @@ class CPU{
  void ldDTOnReg(byte x){
   v[x] = dt; 
  }
+ 
+ // TODO: Fx0A; requires keyboard input
  
  // Fx15 dt = Vx
  void loadRegOnDT(byte x){
@@ -176,6 +205,51 @@ class CPU{
  // Fx18 st = Vx
  void loadRegOnST(byte x){
   st = v[x]; 
+ }
+ 
+ // Fx1E I += Vx
+ void addToRegI(byte x){
+  int intVX = (v[x] & 0xFF);
+  int intRegI = (regI & 0xFFFF);
+  
+  regI = (short)(intVX + intRegI);
+ }
+ 
+ // Fx29 I = set location of sprite for digit Vx
+ void loadSpriteOnRegI(byte x){
+  regI = (short)(0x000 + 5 * v[x]); 
+ }
+ 
+ // Fx33 The interpreter takes the decimal value of Vx, and places the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.
+ void loadBCDToMem(byte x){
+  short startAddr = regI;
+  int intVX = (v[x] & 0xFF);
+  
+  int hundred = intVX / 100;
+  intVX = intVX - hundred * 100;
+  
+  int ten = intVX / 10;
+  intVX = intVX - ten * 10;
+  
+  int units = intVX;
+  
+  memory.setMemory(startAddr, (byte) hundred);
+  memory.setMemory((short) (startAddr + 1), (byte)ten);
+  memory.setMemory((short) (startAddr + 2), (byte)units);
+ }
+ 
+ // Fx55
+ void loadRegSeqToMem(byte x){
+   for(byte reg = 0; reg <= x; reg++){
+    memory.setMemory((short)(regI + reg), v[reg]);
+   }
+ }
+ 
+ // Fx65
+ void loadMemSeqToReg(byte x){
+   for(byte reg = 0; reg <= x; reg++){
+    v[reg] = memory.getMemory((short)(regI + reg));
+   }
  }
  
  // Variable extraction from opcode, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.0
@@ -197,6 +271,10 @@ class CPU{
  
  private byte extractKK(short opcode){
    return (byte)(opcode & 0xFF);
+ }
+ 
+ private boolean isBitSet(byte b, int bit){
+  return (b & ( 1 << bit)) != 0; 
  }
  
 }

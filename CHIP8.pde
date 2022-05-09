@@ -3,15 +3,19 @@
 CPU cpu;
 Memory memory;
 Keyboard keyboard;
+Display display;
 
 // Enable/Disable debug mode
 public static boolean DEBUG = true;
 
 void setup() {
+  size(1280, 640);
   
   memory = new Memory();
   keyboard = new Keyboard();
+  display = new Display(memory);
   cpu = new CPU(memory, keyboard);
+  
 }
 
 void draw() {
