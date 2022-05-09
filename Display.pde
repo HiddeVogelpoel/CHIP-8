@@ -13,7 +13,8 @@ class Display{
   }
   
   void initDisplay(){
-   background(0);
+   // background(0);
+   noStroke();
   }
   
   void drawOnTick(){
@@ -24,10 +25,10 @@ class Display{
     if(white){
       fill(255);
     }else{
-      fill(0); 
+      fill(0, 0, 0); 
     }
     
-    rect(x, y, scale, scale);
+    rect(x * scale, y * scale, scale, scale);
   }
   
   void drawScreen(){
@@ -37,5 +38,15 @@ class Display{
      drawPixel(white, x, y);
     }
    }
+  }
+  
+  void debugDisplay(){
+   Random rd = new Random();
+   for(int y = 0; y < 32; y++){
+    for(int x = 0; x < 64; x++){
+      memory.screen[x][y] = rd.nextBoolean();
+    }
+   }
+   drawScreen();
   }
 }

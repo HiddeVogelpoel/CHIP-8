@@ -15,9 +15,37 @@ void setup() {
   keyboard = new Keyboard();
   display = new Display(memory);
   cpu = new CPU(memory, keyboard);
+  // memory.screen[10][10] = true;
+  // display.drawScreen();
+  // display.debugDisplay();
+  loadRom();
+  
+  for(int i = 0; i < 3; i++){
+   cpu.fetch();
+   cpu.incrementPC();
+   cpu.decodeExecute();
+  }
   
 }
 
 void draw() {
   // cpu.decodeExecute((short)0xF1D4);
+  if(memory.drawFlag){
+    display.drawScreen();
+    memory.drawFlag = false;
+  }
+  
+}
+
+void loadRom(){
+  byte bytes[] = loadBytes("test_opcode.ch8");
+  short currentAddr = (short)0x200;
+  int loadedBytes = 0;
+  for(byte b: bytes){
+   System.out.println(String.format("loading byte %x", b)); 
+   memory.setMemory(currentAddr, b);
+   currentAddr = (short)(currentAddr + 0x1);
+   loadedBytes++;
+  }
+  System.out.println(String.format("Finished loading ROM with length of %d bytes", loadedBytes));
 }

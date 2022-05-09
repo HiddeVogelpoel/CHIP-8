@@ -10,7 +10,7 @@ class CPU{
   
   // Registers
   public byte[] v; // Vx registers 0x0 - 0xf
-  public short regI, pc; // Register to store memory addresses & Program Counter
+  public short regI, pc, currentInstruction; // Register to store memory addresses & Program Counter
   public byte sp, dt, st; // Stack pointer, delay timer, sound timer
 
   
@@ -28,9 +28,19 @@ class CPU{
    
   }
   
- void decodeExecute(short opcode){
+  void fetch(){
+   byte msb = memory.getMemory(pc);
+   byte lsb = memory.getMemory((short)(pc + 0x1));
+   currentInstruction = (short)((short) (msb << 8) | (lsb & 0xFF));
+  }
+  
+  void incrementPC(){
+   pc = (short)(pc + 0x2); 
+  }
+  
+ void decodeExecute(){
    // Debug information
-   if(CHIP8.DEBUG) System.out.println(String.format("Address: %x  |  Nibble: %x  |  X: %x  |  Y: %x  | KK: %x", extractAddress(opcode), extractNibble(opcode),  extractX(opcode),  extractY(opcode),  extractKK(opcode)));
+   if(CHIP8.DEBUG) System.out.println(String.format("Address: %x  |  Nibble: %x  |  X: %x  |  Y: %x  | KK: %x", extractAddress(currentInstruction), extractNibble(currentInstruction),  extractX(currentInstruction),  extractY(currentInstruction),  extractKK(currentInstruction)));
  }
  
  // CPU instructions, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.1
