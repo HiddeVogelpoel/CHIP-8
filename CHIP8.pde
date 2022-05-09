@@ -15,9 +15,6 @@ void setup() {
   keyboard = new Keyboard();
   display = new Display(memory);
   cpu = new CPU(memory, keyboard);
-  // memory.screen[10][10] = true;
-  // display.drawScreen();
-  // display.debugDisplay();
   loadRom();
   
   for(int i = 0; i < 3; i++){
@@ -29,7 +26,6 @@ void setup() {
 }
 
 void draw() {
-  // cpu.decodeExecute((short)0xF1D4);
   if(memory.drawFlag){
     display.drawScreen();
     memory.drawFlag = false;
