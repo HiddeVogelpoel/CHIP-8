@@ -20,7 +20,7 @@ class Keyboard{
  
   Keyboard(){
     keyPressed();   
-    arraySet();
+    //arraySet();
   }
   
   //set all values to false in array to avoid stuck keys
