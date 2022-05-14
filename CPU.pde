@@ -41,6 +41,25 @@ class CPU{
  void decodeExecute(){
    // Debug information
    if(CHIP8.DEBUG) System.out.println(String.format("Address: %x  |  Nibble: %x  |  X: %x  |  Y: %x  | KK: %x", extractAddress(currentInstruction), extractNibble(currentInstruction),  extractX(currentInstruction),  extractY(currentInstruction),  extractKK(currentInstruction)));
+   byte x = extractX(currentInstruction); // X
+   byte y = extractY(currentInstruction); // Y
+   byte nibble = extractNibble(currentInstruction); // N
+   short addr = extractAddress(currentInstruction); // NNN
+   byte kk = extractKK(currentInstruction);
+   
+   if(match(currentInstruction, 0, 0, 0xE, 0)){
+    cls(); 
+    return;
+   }
+   else if(match(currentInstruction, 0, 0, 0xE, 0xE)){
+    ret();
+    return;
+   }
+   else if(match(currentInstruction, 1, null, null, null)){
+     jp(addr);
+     return;
+   }
+   
  }
  
  // CPU instructions, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.1
@@ -263,6 +282,31 @@ class CPU{
  }
  
  // Variable extraction from opcode, see http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#3.0
+ private byte extractNibbleAtPos(short opcode, int pos){
+   opcode = (short)(opcode >> pos*4);
+   return (byte)(opcode & 0x000F);
+ }
+ 
+ private boolean match(short opcode, Integer posThree, Integer posTwo, Integer posOne, Integer posZero){
+   boolean matches = true;
+   if(posThree != null){
+     matches &= (posThree == extractNibbleAtPos(opcode, 3));
+   }
+   
+   if(posTwo != null){
+     matches &= (posTwo == extractNibbleAtPos(opcode, 2));
+   }
+   
+   if(posOne != null){
+     matches &= (posOne == extractNibbleAtPos(opcode, 1));
+   }
+   
+   if(posZero != null){
+     matches &= (posZero == extractNibbleAtPos(opcode, 0));
+   }
+   return matches;
+ }
+ 
  private short extractAddress(short opcode){
   return (short)(opcode & 0xFFF);
  }
