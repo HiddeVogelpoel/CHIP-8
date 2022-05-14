@@ -13,6 +13,8 @@ int cyclesForRefreshing; //Cycles to refresh screen (60 times a second)
 public static boolean DEBUG = false;
 
 void setup() {
+  size(1280, 640);
+  
   //the frequency of processing is set to 500Hz for the CPU
   this.freqHz = 500;
   this.periodNanos = 1000000000/ freqHz;
@@ -24,6 +26,7 @@ void setup() {
   display = new Display(memory);
   cpu = new CPU(memory, keyboard);
   loadRom();
+  //display.debugDisplay();
   
   for(int i = 0; i < 3; i++){
    cpu.fetch();
@@ -79,7 +82,7 @@ void startEmulationLoop(){
       refreshCycles=0;
       //4.- Update screen only every 1/60 seconds (Screen freq = 60Hz)
       if(memory.drawFlag){
-        //screen.paintScreen();
+        //display.drawScreen();
         memory.drawFlag=false;
      }
      
