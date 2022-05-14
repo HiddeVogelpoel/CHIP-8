@@ -59,6 +59,31 @@ class CPU{
      jp(addr);
      return;
    }
+   else if(match(currentInstruction, 2, null, null, null)){
+    call(addr);
+    return;
+   }
+   else if(match(currentInstruction, 3, null, null, null)){
+     seByte(x, kk);
+     return;
+   }
+   else if(match(currentInstruction, 4, null, null, null)){
+     sneByte(x, kk);
+     return;
+   }
+   else if(match(currentInstruction, 5, null, null, 0)){
+    seReg(x, y); 
+    return;
+   }
+   else if(match(currentInstruction, 6, null, null, null)){
+    ldByteOnReg(x, kk);
+    return;
+   }
+   else if(match(currentInstruction, 7, null, null, null)){
+     addByte(x, kk);
+     return;
+   }
+   System.err.printf("Error instruction not found: %04X\n", currentInstruction);
    
  }
  
