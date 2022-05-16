@@ -167,8 +167,35 @@ class CPU{
       return;
      }
      else if(match(currentInstruction, 0xF, null, 0x1, 0x5)){
-       // TODO: add
-      System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+      loadRegOnDT(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x1, 0x8)){
+      loadRegOnST(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x1, 0xE)){
+      addToRegI(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x1, 0xE)){
+      addToRegI(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x2, 0x9)){
+      loadSpriteOnRegI(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x3, 0x3)){
+      loadBCDToMem(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x5, 0x5)){
+      loadRegSeqToMem(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x6, 0x5)){
+      loadMemSeqToReg(x);
       return;
      }
    }
@@ -453,6 +480,7 @@ class CPU{
    return (byte)(opcode & 0x000F);
  }
  
+ //TODO: research later
  private boolean match(short opcode, Integer posThree, Integer posTwo, Integer posOne, Integer posZero){
    boolean matches = true;
    if(posThree != null){
