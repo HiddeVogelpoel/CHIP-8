@@ -147,13 +147,11 @@ class CPU{
      return;
    }
    else if(match(currentInstruction, 0xE, null, 0x9, 0xE)){
-     // TODO: add
-     System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+     skipIfPressed(x);
      return;
    }
    else if(match(currentInstruction, 0xE, null, 0xA, 0x1)){
-     // TODO: add
-     System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+     skipIfNotPressed(x);
      return;
    }
    else if(match(currentInstruction, 0xF, null, null, null)){
@@ -410,7 +408,21 @@ class CPU{
   memory.drawFlag = true;
  }
  
- // TODO: Ex9e, ExA1; both require keyboard inputs
+ // Ex9e
+ void skipIfPressed(byte x){
+  byte key = (byte)(v[x] & 0xF);
+  if(keyboard.pressed[key]){
+   pc = (short)(pc + 0x2);  
+  }
+ }
+ 
+ // ExA1
+ void skipIfNotPressed(byte x){
+  byte key = (byte)(v[x] & 0xF);
+  if(!keyboard.pressed[key]){
+   pc = (short)(pc + 0x2);  
+  }
+ }
  
  // Fx07 Vx = dt
  void ldDTOnReg(byte x){
