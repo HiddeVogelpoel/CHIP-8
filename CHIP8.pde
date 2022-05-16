@@ -27,13 +27,7 @@ void setup() {
   display = new Display(memory);
   cpu = new CPU(memory, keyboard);
   loadRom();
-  //display.debugDisplay();
-  
-  for(int i = 0; i < 3; i++){
-   cpu.fetch();
-   cpu.incrementPC();
-   cpu.decodeExecute();
-  }
+  display.debugDisplay();
   
   emulationThread.start();
   
@@ -128,6 +122,16 @@ void run(){
 
 void keyPressed(){
  keyboard.keyPressed(); 
+ 
+ if(key == 'o'){
+   for(int i = 0; i<16 ; i++){
+     System.out.printf("V%d: %x  | ", i, cpu.v[i]);
+   }
+   System.out.printf("\n");
+   System.out.printf("PC: 0x%08X  | CI: 0x%08X", cpu.pc, cpu.currentInstruction);
+   System.out.printf("\n");
+  
+ }
 }
 
 
