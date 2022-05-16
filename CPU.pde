@@ -186,7 +186,59 @@ class CPU{
   v[x] = res;
  }
  
- // TODO: 8xy5, 8xy6, 8xy7, 8xyE
+ // 8xy5
+ void sub(byte x, byte y){
+  byte result = (byte)(v[x] - v[y]);
+  int intVX = (v[x] & 0xFF);
+  int intVY = (v[y] & 0xFF);
+  
+  if(intVX > intVY){
+   v[0xF] = 0x1; 
+  }else{
+   v[0xF] = 0x0; 
+  }
+  
+  v[x] = result;
+ }
+ 
+ // 8xy6
+ void shr(byte x){
+  byte lsb = (byte)(v[x] & (byte)0x01); 
+  v[0xF] = lsb;
+  int intVX = (v[x] & 0xFF);
+  v[x] = (byte)(intVX >>> 1);
+ }
+ 
+ // 8xy7
+ void subn(byte x, byte y){
+  byte result = (byte)(v[y] - v[x]);
+  int intVX = (v[x] & 0xFF);
+  int intVY = (v[y] & 0xFF);
+  
+  if(intVY > intVX){
+   v[0xF] = 0x1; 
+  }else{
+   v[0xF] = 0x0; 
+  }
+  
+  v[x] = result;
+  
+ }
+ 
+ // 8xye
+ void shl(byte x){
+  byte msb = (byte)(v[x] & 0x80);
+  
+  if(msb != 0){
+   msb = (byte)0x1; 
+  }
+  
+  v[0xF] = msb;
+  
+  int intVX = (v[x] & 0xFF);
+  v[x] = (byte)(intVX << 1);
+  
+ }
  
  // 9xy0 skip next instruction if Vx != Vy  |  compare register Vx to register Vy, increase pc by 2 when not equal
  void sneReg(byte x, byte y){
