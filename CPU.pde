@@ -31,7 +31,7 @@ class CPU{
   void fetch(){
    byte msb = memory.getMemory(pc);
    byte lsb = memory.getMemory((short)(pc + 0x1));
-   currentInstruction = (short)((short) (msb << 8) | (lsb & 0xFF));
+   currentInstruction = (short)((short) (msb << 8) | (lsb & 0x00FF));
   }
   
   void incrementPC(){
@@ -206,6 +206,16 @@ class CPU{
  }
  
  // TODO: Fx0A; requires keyboard input
+ void waitUntilKeyPress(byte x){   
+   //if any key is pressed, run place the key val into v[x]
+   byte pressed = (byte)() & 0xF;
+   
+   if(keyboard.pressed[keyboard.keys.get('A')]){
+     
+   }
+   
+   v[x] = keyboard.keys;
+ }
  
  // Fx15 dt = Vx
  void loadRegOnDT(byte x){

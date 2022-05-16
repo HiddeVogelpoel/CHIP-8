@@ -17,14 +17,38 @@
 class Keyboard{
   //the array stores the states of pressed keys
   public boolean[] pressed = new boolean[16];
+  
+  public HashMap<Character, Byte> keys;
  
   Keyboard(){
-    keyPressed();   
-    //arraySet();
+    keys = new HashMap<Character, Byte>();
+    hashSet();
+    arrayReset();
+    keyPressed();
+  }
+  
+  void hashSet(){
+    keys.put('1', (byte)0x1);
+    keys.put('2', (byte)0x2);
+    keys.put('3', (byte)0x3);
+    keys.put('4', (byte)0xC);
+    keys.put('Q', (byte)0x4);
+    keys.put('W', (byte)0x5);
+    keys.put('E', (byte)0x6);
+    keys.put('R', (byte)0xD);
+    keys.put('A', (byte)0x7);
+    keys.put('S', (byte)0x8);
+    keys.put('D', (byte)0x9);
+    keys.put('F', (byte)0xE);
+    keys.put('Z', (byte)0xA);
+    keys.put('Y', (byte)0xA);
+    keys.put('X', (byte)0x0);
+    keys.put('C', (byte)0xB);
+    keys.put('V', (byte)0xF);
   }
   
   //set all values to false in array to avoid stuck keys
-  void arraySet(){
+  void arrayReset(){
     pressed[0x1] = false;
     pressed[0x2] = false;
     pressed[0x3] = false;
@@ -41,6 +65,13 @@ class Keyboard{
     pressed[0x0] = false;
     pressed[0xB] = false;
     pressed[0xF] = false;
+  }
+
+  //reset array if no keys are pressed
+  void checkKeyPress(){
+    if(!keyPressed){
+      arrayReset();
+    }
   }
   
   //event for the input check
