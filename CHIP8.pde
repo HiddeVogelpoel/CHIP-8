@@ -85,7 +85,7 @@ void run(){
       refreshCycles=0;
       //4.- Update screen only every 1/60 seconds (Screen freq = 60Hz)
       if(memory.drawFlag){
-        //display.drawScreen();
+        display.drawScreen();
         memory.drawFlag=false;
      }
      
