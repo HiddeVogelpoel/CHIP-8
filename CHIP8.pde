@@ -8,6 +8,7 @@ Display display;
 int freqHz;              //CPU frequency
 long periodNanos;       //Time for each cycle
 int cyclesForRefreshing; //Cycles to refresh screen (60 times a second)
+boolean noThread = true;
 
 // Enable/Disable debug mode
 public static boolean DEBUG = false;
@@ -34,11 +35,11 @@ void setup() {
    cpu.decodeExecute();
   }
   
-  startEmulationLoop();
+  emulationThread.start();
   
 }
 
-void draw() {
+void draw(){
   
 }
 
@@ -55,7 +56,8 @@ void loadRom(){
   System.out.println(String.format("Finished loading ROM with length of %d bytes", loadedBytes));
 }
 
-void startEmulationLoop(){
+Thread emulationThread = new Thread(){
+void run(){
   int emulatedCycles = 0; //Number of emulated cycles (reset every 500 (freqHz) cycles)
 
   //Number of emulated cycles (gets reseted every "cyclesForRefreshing" cycles).
@@ -121,6 +123,11 @@ void startEmulationLoop(){
     }
   
   }
+}
+};
+
+void keyPressed(){
+ keyboard.keyPressed(); 
 }
 
 

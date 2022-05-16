@@ -207,14 +207,7 @@ class CPU{
  
  // TODO: Fx0A; requires keyboard input
  void waitUntilKeyPress(byte x){   
-   //if any key is pressed, run place the key val into v[x]
-   byte pressed = (byte)() & 0xF;
    
-   if(keyboard.pressed[keyboard.keys.get('A')]){
-     
-   }
-   
-   v[x] = keyboard.keys;
  }
  
  // Fx15 dt = Vx
