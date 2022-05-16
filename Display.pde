@@ -28,7 +28,11 @@ class Display{
       fill(0, 0, 0); 
     }
     
-    rect(x * scale, y * scale, scale, scale);
+    try{
+      rect(x * scale, y * scale, scale, scale);
+    }catch(NullPointerException e){
+      
+    }
   }
   
   void drawScreen(){

@@ -41,6 +41,7 @@ class CPU{
  void decodeExecute(){
    // Debug information
    if(CHIP8.DEBUG) System.out.println(String.format("Address: %x  |  Nibble: %x  |  X: %x  |  Y: %x  | KK: %x", extractAddress(currentInstruction), extractNibble(currentInstruction),  extractX(currentInstruction),  extractY(currentInstruction),  extractKK(currentInstruction)));
+
    byte x = extractX(currentInstruction); // X
    byte y = extractY(currentInstruction); // Y
    byte nibble = extractNibble(currentInstruction); // N
@@ -408,6 +409,7 @@ class CPU{
   memory.drawFlag = true;
  }
  
+
  // Ex9e
  void skipIfPressed(byte x){
   byte key = (byte)(v[x] & 0xF);
