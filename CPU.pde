@@ -83,6 +83,95 @@ class CPU{
      addByte(x, kk);
      return;
    }
+   else if(match(currentInstruction, 8, null, null, null)){
+    byte last = extractNibbleAtPos(currentInstruction, 0); 
+    
+    switch(last){
+      case 0x0:
+        ldRegOnReg(x, y);
+        return;
+      
+      case 0x1:
+        or(x, y);
+        return;
+      
+      case 0x2:
+        and(x, y);
+        return;
+      
+      case 0x3:
+        xor(x, y);
+        return;
+      
+      case 0x4:
+        addReg(x, y);
+        return;
+      
+      case 0x5:
+        sub(x, y);
+        return;
+      
+      case 0x6:
+        shr(x);
+        return;
+      
+      case 0x7:
+        subn(x, y);
+        return;
+      
+      case 0xE:
+        shl(x);
+        return;
+      default:
+      
+    }
+   }
+   else if(match(currentInstruction, 9, null, null, 0)){
+     sneReg(x, y);
+     return;
+   }
+   else if(match(currentInstruction, 0xA, null, null, null)){
+     ldAddrOnRegI(addr);
+     return;
+   }
+   else if(match(currentInstruction, 0xB, null, null, null)){
+     jpZero(addr);
+     return;
+   }
+   else if(match(currentInstruction, 0xC, null, null, null)){
+     rnd(x, kk);
+     return;
+   }
+   else if(match(currentInstruction, 0xD, null, null, null)){
+     draw(x, y, nibble);
+     return;
+   }
+   else if(match(currentInstruction, 0xE, null, 0x9, 0xE)){
+     // TODO: add
+     System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+     return;
+   }
+   else if(match(currentInstruction, 0xE, null, 0xA, 0x1)){
+     // TODO: add
+     System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+     return;
+   }
+   else if(match(currentInstruction, 0xF, null, null, null)){
+     if(match(currentInstruction, 0xF, null, 0x0, 0xF)){
+      ldDTOnReg(x);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x0, 0xA)){
+       // TODO: add
+      System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+      return;
+     }
+     else if(match(currentInstruction, 0xF, null, 0x1, 0x5)){
+       // TODO: add
+      System.err.printf("Error instruction not found: %04X\n", currentInstruction);
+      return;
+     }
+   }
    System.err.printf("Error instruction not found: %04X\n", currentInstruction);
    
  }
